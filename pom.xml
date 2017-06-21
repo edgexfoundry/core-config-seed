@@ -38,7 +38,17 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<nexusproxy>https://nexus.edgexfoundry.org</nexusproxy>
+		<repobasepath>content/repositories</repobasepath>
 	</properties>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>EdgeX Snapshot Repository</name>
+			<url>${nexusproxy}/${repobasepath}/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>

@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    Copyright 2016-2017 Dell Inc.
-   
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-   
-    http://www.apache.org/licenses/LICENSE-2.0
-   
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-   
-    @microservice:  core-config-seed
-    @author: Cloud Tsai, Dell
-    @version: 1.0.0
- -->
+<!-- Copyright 2016-2017 Dell Inc. Licensed under the Apache License, Version 
+	2.0 (the "License"); you may not use this file except in compliance with 
+	the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. 
+	@microservice: core-config-seed @author: Cloud Tsai, Dell @version: 1.0.0 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -35,11 +24,13 @@
 	</parent>
 
 	<properties>
+		<core-test.version>1.0.0-SNAPSHOT</core-test.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<nexusproxy>https://nexus.edgexfoundry.org</nexusproxy>
 		<repobasepath>content/repositories</repobasepath>
+		<checkstyle.plugin.version>2.17</checkstyle.plugin.version>
 	</properties>
 
 	<distributionManagement>
@@ -49,6 +40,24 @@
 			<url>${nexusproxy}/${repobasepath}/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
+
+	<profiles>
+		<profile>
+			<id>RequiresNone</id>
+			<properties>
+				<testcase.groups>org.edgexfoundry.test.category.RequiresNone</testcase.groups>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>Requires</id>
+			<properties>
+				<testcase.groups>org.edgexfoundry.test.category.RequiresConsul</testcase.groups>
+			</properties>
+		</profile>
+	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -69,6 +78,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.edgexfoundry</groupId>
+			<artifactId>core-test</artifactId>
+			<version>${core-test.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -86,6 +101,72 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${checkstyle.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<configuration>
+							<configLocation>google_checks.xml</configLocation>
+							<consoleOutput>true</consoleOutput>
+							<violationSeverity>error</violationSeverity>
+							<skip>false</skip>
+							<linkXRef>false</linkXRef>
+							<includeTestSourceDirectory>true</includeTestSourceDirectory>
+							<outputFile>${project.build.directory}/edgex-checkstyles-result.xml</outputFile>
+						</configuration>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<groups>${testcase.groups}</groups>
+				</configuration>
+			</plugin>			
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-checkstyle-plugin</artifactId>
+										<versionRange>[2.17,)</versionRange>
+										<goals>
+											<goal>check</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
+	<repositories>
+		<repository>
+			<id>org.edgexfoundry</id>
+			<name>EdgeX Foundry Nexus Repository</name>
+			<url>${nexusproxy}/content/groups/public/</url>
+		</repository>
+	</repositories>
 </project>

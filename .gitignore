@@ -10,6 +10,10 @@ tmp/**/*
 *~.nib
 local.properties
 .loadpath
+logs/**
+logs/**/*
+*.log
+dependency-reduced-pom.xml
 
 # External tool builders
 .externalToolBuilders/

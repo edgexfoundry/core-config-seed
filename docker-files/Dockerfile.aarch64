@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright 2016-2017 Dell Inc.
+# Copyright 2016-2017 Cavium.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,15 +15,16 @@
 #
 ###############################################################################
 # Docker image for EdgeX Foundry Config Seed 
-# FROM java:8
-FROM maven:3.3-jdk-8-alpine
+FROM arm64v8/alpine:3.6
+MAINTAINER Federico Claramonte <fede.claramonte@caviumnetworks.com>
+
+RUN apk --update add openjdk8-jre maven
 
 COPY docker-files/pom.xml .
 
 RUN mvn dependency:copy -q
 
-FROM alpine:3.6
-MAINTAINER Cloud Tsai <Cloud.Tsai@Dell.com>
+FROM arm64v8/alpine:3.6
 
 RUN apk --update add openjdk8-jre
 

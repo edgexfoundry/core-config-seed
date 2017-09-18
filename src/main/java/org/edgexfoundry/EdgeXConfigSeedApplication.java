@@ -144,18 +144,18 @@ public class EdgeXConfigSeedApplication implements CommandLineRunner {
     try {
       List<String> configList = kvClient.getKeys(globalPrefix);
       if (!configList.isEmpty()) {
-        LOGGER.info(globalPrefix + " exists! The configuration data has been initialized.");
+        LOGGER.info("%s exists! The configuration data has been initialized.", globalPrefix);
         return true;
       }
     } catch (NotFoundException e) {
-      LOGGER.info(globalPrefix + " doesn't exist! Start importing configuration data.");
+      LOGGER.info("%s doesn't exist! Start importing configuration data.", globalPrefix);
     }
     return false;
   }
 
   public Consul consulWithRetry() throws InterruptedException {
     int fails = 0;
-    LOGGER.info("Connecting to Consul at " + host + ":" + port);
+    LOGGER.info("Connecting to Consul at %s: %d", host, port);
     Consul consul;
     while (fails < failLimit) {
       consul = getConsul();

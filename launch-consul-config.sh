@@ -18,7 +18,7 @@
 
 set -e
 
-rm -rf /consul/data/* && consul agent -data-dir=/consul/data -config-dir=/consul/config -server -client=0.0.0.0 -bootstrap -ui | tee /edgex/logs/core-consul.log &
+rm -rf /consul/data/* && docker-entrypoint.sh $CONSUL_ARGS | tee /edgex/logs/core-consul.log
 
 echo "Waiting for $WAIT_FOR_A_WHILE seconds until consul is configured"
 sleep $WAIT_FOR_A_WHILE

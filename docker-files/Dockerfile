@@ -27,17 +27,25 @@ MAINTAINER Cloud Tsai <Cloud.Tsai@Dell.com>
 
 RUN apk --update add openjdk8-jre
 
+# Consul Docker image for EdgeX Foundry
+FROM consul:0.7.3
+
 # environment variables
 ENV APP_DIR=/edgex/core-config-seed
 ENV APP=core-config-seed.jar
+
+ENV WAIT_FOR_A_WHILE=10
+
+ENV CONSUL_ARGS="-server -client=0.0.0.0 -bootstrap -ui"
 
 #copy JAR and default config files to the image
 COPY --from=0 *.jar $APP_DIR/$APP
 COPY docker-files/*.properties $APP_DIR/
 COPY ./config $APP_DIR/config
+COPY docker-files/launch-consul-config.sh $APP_DIR/
 
 #set the working directory
 WORKDIR $APP_DIR
 
-#kick off the tool
-ENTRYPOINT java -jar -Djava.security.egd=file:/dev/urandom -Xmx100M $APP
+#call the wrapper to launch consul and main app
+CMD $APP_DIR/launch-consul-config.shCMD 

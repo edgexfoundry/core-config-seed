@@ -62,16 +62,16 @@ ENV APP_DIR=/edgex/core-config-seed
 ENV APP=core-config-seed.jar
 ENV WAIT_FOR_A_WHILE=10
 
-ENV CONSUL_ARGS -server -client=0.0.0.0 -bootstrap -ui
+ENV CONSUL_ARGS="-server -client=0.0.0.0 -bootstrap -ui"
 
 
 #copy JAR and default config files to the image
 COPY --from=0 *.jar $APP_DIR/$APP
 COPY docker-files/*.properties $APP_DIR/
 COPY ./config $APP_DIR/config
-COPY ./launch-consul-config.sh $APP_DIR/
+COPY docker-files/launch-consul-config.sh $APP_DIR/
 #comes from https://github.com/hashicorp/docker-consul/blob/master/0.X/docker-entrypoint.sh as there is no arm64 version consul FROM
-COPY ./docker-entrypoint.sh $APP_DIR/
+COPY docker-files/docker-entrypoint.sh $APP_DIR/
 
 #set the working directory
 WORKDIR $APP_DIR

@@ -48,4 +48,4 @@ COPY docker-files/launch-consul-config.sh $APP_DIR/
 WORKDIR $APP_DIR
 
 #call the wrapper to launch consul and main app
-CMD $APP_DIR/launch-consul-config.shCMD 
+CMD $APP_DIR/launch-consul-config.sh

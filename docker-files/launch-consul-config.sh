@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Copyright 2017 Cavium Inc.
 #
@@ -18,7 +18,12 @@
 
 set -e
 
-rm -rf /consul/data/* && $APP_DIR/docker-entrypoint.sh $CONSUL_ARGS | tee /edgex/logs/core-consul.log
+if [ -z $ARCH ]
+	then
+	rm -rf /consul/data/* && docker-entrypoint.sh agent $CONSUL_ARGS | tee /edgex/logs/core-consul.log
+else
+	rm -rf /consul/data/* && $APP_DIR/docker-entrypoint.sh agent $CONSUL_ARGS | tee /edgex/logs/core-consul.log
+fi
 
 echo "Waiting for $WAIT_FOR_A_WHILE seconds until consul is configured"
 sleep $WAIT_FOR_A_WHILE

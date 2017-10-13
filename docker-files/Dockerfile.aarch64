@@ -64,6 +64,7 @@ ENV WAIT_FOR_A_WHILE=10
 
 ENV CONSUL_ARGS="-server -client=0.0.0.0 -bootstrap -ui"
 
+ENV ARCH=arm64
 
 #copy JAR and default config files to the image
 COPY --from=0 *.jar $APP_DIR/$APP

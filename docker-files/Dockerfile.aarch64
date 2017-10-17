@@ -31,7 +31,7 @@ FROM arm64v8/ubuntu:zesty
 RUN addgroup consul && \
     adduser --system --ingroup consul consul
 
-RUN apt-get update && apt-get install consul openjdk-8-jre-headless -y --no-install-recommends &&  apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install consul openjdk-8-jre-headless gosu -y --no-install-recommends &&  apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # The /consul/data dir is used by Consul to store state. The agent will be started
 # with /consul/config as the configuration directory so you can add additional

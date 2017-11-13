@@ -12,7 +12,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.edgexfoundry</groupId>
 	<artifactId>core-config-seed</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<name>EdgeX Foundry Core Configuration initialization Micro Service</name>
 	<description>EdgeX Foundry Core Configuration initialization Micro Service</description>
 
@@ -24,7 +24,7 @@
 	</parent>
 
 	<properties>
-		<core-test.version>0.2.0-SNAPSHOT</core-test.version>
+		<core-test.version>0.2.1-SNAPSHOT</core-test.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>

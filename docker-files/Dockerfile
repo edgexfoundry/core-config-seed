@@ -22,13 +22,10 @@ COPY docker-files/pom.xml .
 
 RUN mvn dependency:copy -q
 
-FROM alpine:3.6
-MAINTAINER Cloud Tsai <Cloud.Tsai@Dell.com>
-
-RUN apk --update add openjdk8-jre
-
 # Consul Docker image for EdgeX Foundry
 FROM consul:0.7.3
+
+RUN apk --update add openjdk8-jre
 
 # environment variables
 ENV APP_DIR=/edgex/core-config-seed

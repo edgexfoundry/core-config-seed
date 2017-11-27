@@ -20,9 +20,9 @@ set -e
 
 if [ -z $ARCH ]
 	then
-	rm -rf /consul/data/* && docker-entrypoint.sh agent $CONSUL_ARGS | tee /edgex/logs/core-consul.log
+	rm -rf /consul/data/* && docker-entrypoint.sh agent $CONSUL_ARGS | tee /edgex/logs/core-consul.log &
 else
-	rm -rf /consul/data/* && $APP_DIR/docker-entrypoint.sh agent $CONSUL_ARGS | tee /edgex/logs/core-consul.log
+	rm -rf /consul/data/* && $APP_DIR/docker-entrypoint.sh agent $CONSUL_ARGS | tee /edgex/logs/core-consul.log &
 fi
 
 echo "Waiting for $WAIT_FOR_A_WHILE seconds until consul is configured"
